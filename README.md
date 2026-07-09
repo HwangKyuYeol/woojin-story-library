@@ -1,19 +1,17 @@
 # WooJin Story Library
 
-우진이 성장 도서관입니다.
+GitHub Pages 업로드용 최종 통합본입니다.
 
-## 업로드 방법
+## 포함
+- 메인 도서관 `index.html`
+- 기차여행 포함
+- 제주도 여행 Part 1 포함
+- 각 책 폴더 안 `index.html` 포함
 
-ZIP 압축을 풀고 저장소 루트에 아래 구조 그대로 업로드하세요.
+## 업로드
+ZIP 압축을 풀고 저장소 루트에 그대로 덮어씌우세요.
 
-- `index.html`
-- `css/`
-- `js/`
-- `assets/`
+정상 주소:
+`https://hwangkyuyeol.github.io/woojin-story-library/`
 
-GitHub Pages 설정은 `main` / `/(root)` 입니다.
-
-## 포함된 책
-
-- 우진이의 기차여행
-- 제주도 여행 Part 1
+캐시가 남으면 주소 뒤에 `?v=10`을 붙여 확인하세요.
