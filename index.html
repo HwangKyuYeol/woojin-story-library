@@ -56,26 +56,16 @@ const BOOKS=[
   {img:'assets/books/jeju-part1/pages/11.jpg',text:'오늘도\n행복한 하루였습니다.'}
  ]},
  {id:'jeju2',emoji:'🌊',title:'제주도 여행 Part 2',subtitle:'바람이 속삭이는 아름다운 하루',cover:'assets/books/jeju-part2/cover.jpg',theme:'jeju',memories:[],pages:[
-  {img:'assets/books/jeju-part2/pages/01.jpg',text:'우진이의
-제주도 여행 2'},
-  {img:'assets/books/jeju-part2/pages/02.jpg',text:'제주도의 아침은
-상쾌하게 시작됐어요.',hidden:'☀️'},
-  {img:'assets/books/jeju-part2/pages/03.jpg',text:'노란 꽃밭에서
-파란 바람개비를 만났어요.',hidden:'💙'},
-  {img:'assets/books/jeju-part2/pages/04.jpg',text:'바다는 절벽 아래에서
-반짝반짝 빛났어요.',hidden:'🌊'},
-  {img:'assets/books/jeju-part2/pages/05.jpg',text:'우진이는 바닷바람을 맞으며
-활짝 웃었답니다.',hidden:'✨'},
-  {img:'assets/books/jeju-part2/pages/06.jpg',text:'숲 속 카페에서
-달콤한 간식도 먹었어요.'},
-  {img:'assets/books/jeju-part2/pages/07.jpg',text:'초록 오름을 향해
-엄마 아빠 손을 잡고 걸었어요.',hidden:'🌿'},
-  {img:'assets/books/jeju-part2/pages/08.jpg',text:'그리고 드디어
-엄마 아빠의 웨딩사진 장소에 왔어요.',hidden:'💍'},
-  {img:'assets/books/jeju-part2/pages/09.jpg',text:'그때처럼 따뜻한 햇살 속에서
-우리 가족은 새 추억을 만들었어요.',hidden:'❤️'},
-  {img:'assets/books/jeju-part2/pages/10.jpg',text:'우진아,
-우리의 제주 이야기는 계속될 거야.'}
+  {img:'assets/books/jeju-part2/pages/01.jpg',text:'우진이의\n제주도 여행 2'},
+  {img:'assets/books/jeju-part2/pages/02.jpg',text:'제주도의 아침은\n상쾌하게 시작됐어요.',hidden:'☀️'},
+  {img:'assets/books/jeju-part2/pages/03.jpg',text:'노란 꽃밭에서\n파란 바람개비를 만났어요.',hidden:'💙'},
+  {img:'assets/books/jeju-part2/pages/04.jpg',text:'바다는 절벽 아래에서\n반짝반짝 빛났어요.',hidden:'🌊'},
+  {img:'assets/books/jeju-part2/pages/05.jpg',text:'우진이는 바닷바람을 맞으며\n활짝 웃었답니다.',hidden:'✨'},
+  {img:'assets/books/jeju-part2/pages/06.jpg',text:'숲 속 카페에서\n달콤한 간식도 먹었어요.'},
+  {img:'assets/books/jeju-part2/pages/07.jpg',text:'초록 오름을 향해\n엄마 아빠 손을 잡고 걸었어요.',hidden:'🌿'},
+  {img:'assets/books/jeju-part2/pages/08.jpg',text:'그리고 드디어\n엄마 아빠의 웨딩사진 장소에 왔어요.',hidden:'💍'},
+  {img:'assets/books/jeju-part2/pages/09.jpg',text:'그때처럼 따뜻한 햇살 속에서\n우리 가족은 새 추억을 만들었어요.',hidden:'❤️'},
+  {img:'assets/books/jeju-part2/pages/10.jpg',text:'우진아,\n우리의 제주 이야기는 계속될 거야.'}
 ]},
  {id:'dino',emoji:'🦕',title:'공룡나라 모험',subtitle:'우진이가 공룡 친구를 만나는 이야기',cover:'assets/books/train/cover.jpg',coming:true}
 ];
@@ -86,7 +76,7 @@ function buildVisiblePages(){visiblePages=[];for(const p of current.pages){if(p.
 function openBook(id,btn){const book=BOOKS.find(b=>b.id===id);if(!book||book.coming){alert('아직 준비중인 이야기예요.');return}btn.classList.add('opening');setTimeout(()=>{current=book;page=0;choice=null;found=getStore(foundKey)[book.id]||{};buildVisiblePages();$('readerTitle').textContent=`${book.emoji} ${book.title}`;$('library').classList.add('hidden');$('reader').classList.remove('hidden');if(book.theme==='train')showTrainIntro();showPage('next');startParticles(book.theme)},330)}
 function showTrainIntro(){const el=$('trainIntro');el.classList.remove('hidden');beep('train');setTimeout(()=>el.classList.add('hidden'),2200)}
 function currentPage(){return visiblePages[page]}function totalHidden(){return current.pages.filter(p=>p.hidden && (!p.branch || p.branch===choice)).length}function foundCount(){return Object.keys(found).filter(k=>found[k]).length}
-function showPage(dir){if(!current)return;const p=currentPage();if(p.choice){showChoice();return}const card=$('pageCard');card.classList.remove('flip-next','flip-prev');void card.offsetWidth;card.classList.add(dir==='prev'?'flip-prev':'flip-next');$('pageImg').src=p.img;$('storyText').textContent=(p.text||'').replace(/\\n/g,'\n').replace(/\n/g,'\n');$('prevBtn').disabled=page===0;$('nextBtn').textContent=page===visiblePages.length-1?'끝내기 →':'다음 →';$('dots').innerHTML=visiblePages.map((_,i)=>`<span class="dot ${i===page?'active':''}"></span>`).join('');renderHiddenObject(p);beep('page')}
+function showPage(dir){if(!current)return;const p=currentPage();if(p.choice){showChoice();return}const card=$('pageCard');card.classList.remove('flip-next','flip-prev');void card.offsetWidth;card.classList.add(dir==='prev'?'flip-prev':'flip-next');$('pageImg').src=p.img;$('storyText').textContent=(p.text||'').replace(/\\n/g,'\n');$('prevBtn').disabled=page===0;$('nextBtn').textContent=page===visiblePages.length-1?'끝내기 →':'다음 →';$('dots').innerHTML=visiblePages.map((_,i)=>`<span class="dot ${i===page?'active':''}"></span>`).join('');renderHiddenObject(p);beep('page')}
 function renderHiddenObject(p){const h=$('hiddenObject'),c=$('findCounter');if(!current){h.classList.add('hidden');c.classList.add('hidden');return}const total=totalHidden();c.textContent=`숨은그림 ${foundCount()}/${total||0}`;c.classList.toggle('hidden',total===0);if(!p.hidden){h.classList.add('hidden');return}const key=page+'-'+p.hidden;h.textContent=p.hidden;h.className='hidden-object';if(found[key])h.classList.add('found');const pos=[['72%','22%'],['18%','34%'],['78%','62%'],['38%','18%'],['58%','72%']][page%5];h.style.left=pos[0];h.style.top=pos[1];h.onclick=(e)=>{e.stopPropagation();if(!found[key]){found[key]=true;const all=getStore(foundKey);all[current.id]=found;setStore(foundKey,all);toast(`${p.hidden} 찾았다!`);beep('done');renderHiddenObject(p)}}}
 function showChoice(){$('choicePanel').classList.remove('hidden');beep('done')}
 document.querySelectorAll('#choicePanel button').forEach(b=>b.onclick=()=>{choice=b.dataset.choice;$('choicePanel').classList.add('hidden');buildVisiblePages();page=visiblePages.findIndex(p=>p.branch===choice);if(page<0)page=2;toast(choice==='sea'?'바닷길로 출발!':'꽃길로 출발!');showPage('next')});
