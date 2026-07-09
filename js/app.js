@@ -48,6 +48,16 @@ const dots = document.getElementById('dots');
 let currentBook = null;
 let pageIndex = 0;
 
+function formatStoryText(text){
+  return String(text || '').replace(/\\n/g, '\n').replace(/\/n/g, '\n');
+}
+
+function finishBook(){
+  const title = currentBook ? currentBook.title : '동화책';
+  alert(`「${title}」 이야기가 끝났어요!\n도서관으로 돌아갈게요.`);
+  back();
+}
+
 function renderLibrary(){
   bookshelf.innerHTML = BOOKS.map(book => `
     <button class="book" data-book="${book.id}">
@@ -75,12 +85,20 @@ function renderPage(dir='next'){
     readerTitle.textContent = currentBook.title;
     pageCounter.textContent = `${pageIndex+1} / ${currentBook.pages.length}`;
     pageImage.src = page.img;
-    storyText.textContent = page.text;
+    storyText.textContent = formatStoryText(page.text);
     dots.innerHTML = currentBook.pages.map((_,i)=>`<span class="dot ${i===pageIndex?'active':''}"></span>`).join('');
     pageCard.classList.remove('flipping-next','flipping-prev');
   },160);
 }
-function nextPage(){ if(!currentBook) return; if(pageIndex < currentBook.pages.length-1){ pageIndex++; renderPage('next'); } }
+function nextPage(){
+  if(!currentBook) return;
+  if(pageIndex < currentBook.pages.length-1){
+    pageIndex++;
+    renderPage('next');
+  } else {
+    finishBook();
+  }
+}
 function prevPage(){ if(!currentBook) return; if(pageIndex > 0){ pageIndex--; renderPage('prev'); } }
 function back(){ reader.classList.remove('active'); library.classList.add('active'); currentBook=null; }
 
