@@ -1,118 +1,63 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>WooJin Story Library</title>
-  <style>
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:#f7edda;color:#2f2418}
-    body{overflow:hidden}
-    .screen{display:none;min-height:100dvh}
-    .screen.active{display:block}
-    .hero{padding:clamp(28px,5vw,56px) clamp(20px,6vw,72px) 18px;background:linear-gradient(135deg,#fff7df,#dff3ff 55%,#ffe6b3);border-bottom:1px solid rgba(90,63,27,.12);position:relative;overflow:hidden}
-    .hero::after{content:'';position:absolute;inset:auto -10% -32px -10%;height:62px;background:radial-gradient(ellipse at center,rgba(255,255,255,.8),transparent 62%);animation:cloud 10s linear infinite}
-    @keyframes cloud{0%{transform:translateX(-8%)}50%{transform:translateX(8%)}100%{transform:translateX(-8%)}}
-    .eyebrow{margin:0 0 8px;font-size:13px;font-weight:900;letter-spacing:.14em;color:#2b6fa3}
-    .hero h1{margin:0;font-size:clamp(34px,6vw,70px);letter-spacing:-.05em}
-    .hero p{font-size:clamp(15px,2vw,21px);margin:12px 0 0;color:#5a4731}
-    .bookshelf{height:calc(100dvh - 190px);overflow:auto;padding:28px clamp(18px,5vw,72px) 80px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;background:radial-gradient(circle at top,#fff9e9,#ead1a1);align-items:start;grid-auto-rows:max-content}
-    .book{border:0;text-align:left;border-radius:28px;padding:0;background:#fff;box-shadow:0 22px 48px rgba(93,64,24,.2);cursor:pointer;overflow:hidden;transform:translateY(0) rotateX(0) rotateY(0);transition:transform .28s ease, box-shadow .28s ease, filter .28s ease;align-self:start;height:auto;min-height:0;position:relative;transform-style:preserve-3d}
-    .book::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.42),transparent 62%);transform:translateX(-120%);transition:.6s;z-index:2;pointer-events:none}
-    .book:hover{transform:translateY(-10px) rotateX(2deg) rotateY(-2deg);box-shadow:0 30px 60px rgba(93,64,24,.28);filter:saturate(1.05)}
-    .book:hover::before{transform:translateX(120%)}
-    .book.opening{animation:bookPop .72s cubic-bezier(.2,.9,.2,1) forwards}
-    @keyframes bookPop{0%{transform:scale(1)}45%{transform:scale(1.07) translateY(-18px)}100%{transform:scale(.92) translateY(16px);opacity:0}}
-    .book img{width:100%;height:clamp(180px,26vw,300px);object-fit:cover;object-position:center top;display:block;background:#ead1a1}
-    .book-info{padding:18px 20px 22px}
-    .book-info h2{margin:0 0 8px;font-size:25px}
-    .book-info p{margin:0;color:#725b3c;line-height:1.55}
-    .badge{display:inline-block;margin-bottom:10px;padding:6px 10px;border-radius:99px;background:#e9f5ff;color:#23658f;font-weight:900;font-size:12px}
-    .reader-screen{background:#14100d;color:#fff}
-    .reader-top{height:72px;padding:12px max(16px,env(safe-area-inset-left)) 10px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(0,0,0,.38);position:relative;z-index:8}
-    .reader-top strong{display:block;font-size:18px}
-    .reader-top span{font-size:13px;color:#d7c5a8}
-    .top-actions{display:flex;gap:8px;align-items:center}
-    .ghost-btn{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.1);color:#fff;border-radius:999px;padding:10px 16px;font-weight:800}
-    .sound-btn.on{background:#f4d38b;color:#2f2418;border-color:#f4d38b}
-    .book-stage{position:relative;height:calc(100dvh - 142px);display:flex;align-items:center;justify-content:center;padding:10px 12px 16px;perspective:1600px;background:radial-gradient(circle at 50% 30%,#312719,#120f0d 70%);overflow:hidden}
-    .book-stage::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.055),transparent);animation:stageLight 6s ease-in-out infinite;pointer-events:none}
-    @keyframes stageLight{0%,100%{transform:translateX(-20%)}50%{transform:translateX(20%)}}
-    .train-smoke{position:absolute;left:5vw;bottom:76px;width:120px;height:70px;pointer-events:none;opacity:0;z-index:7}
-    .reader-screen.train-mode .train-smoke{opacity:1}
-    .train-smoke span{position:absolute;bottom:0;width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.55);filter:blur(.5px);animation:smoke 2.3s ease-out infinite}
-    .train-smoke span:nth-child(2){left:30px;animation-delay:.4s}.train-smoke span:nth-child(3){left:62px;animation-delay:.8s}
-    @keyframes smoke{0%{transform:translate(0,18px) scale(.55);opacity:0}20%{opacity:.8}100%{transform:translate(45px,-58px) scale(2.1);opacity:0}}
-    .page-card{position:relative;width:min(96vw,1180px);height:min(calc(100dvh - 170px),720px);border-radius:24px;overflow:hidden;background:#f7edda;box-shadow:0 35px 80px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.25);transition:transform .6s cubic-bezier(.2,.72,.2,1), opacity .3s ease;transform-style:preserve-3d}
-    .page-card::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.16),transparent 12%,transparent 88%,rgba(0,0,0,.18));pointer-events:none}
-    .page-card.flipping-next{transform-origin:left center;transform:rotateY(-32deg) translateX(-28px) scale(.985);opacity:.62}
-    .page-card.flipping-prev{transform-origin:right center;transform:rotateY(32deg) translateX(28px) scale(.985);opacity:.62}
-    .page-card img{width:100%;height:100%;object-fit:contain;background:#fbf0d9;display:block}
-    .story-text{position:absolute;left:clamp(20px,5vw,68px);bottom:clamp(20px,5vw,56px);max-width:min(580px,78%);font-size:clamp(22px,4vw,48px);line-height:1.28;font-weight:900;letter-spacing:-.04em;color:#fff;text-shadow:0 3px 12px rgba(0,0,0,.72),0 1px 2px rgba(0,0,0,.9);white-space:pre-line}
-    .tap-zone{position:absolute;top:0;bottom:0;width:35%;border:0;background:transparent;z-index:4}
-    .tap-zone.left{left:0}.tap-zone.right{right:0}
-    .reader-bottom{height:70px;display:flex;align-items:center;justify-content:center;gap:20px;background:rgba(0,0,0,.72);padding-bottom:env(safe-area-inset-bottom)}
-    .reader-bottom button{border:0;border-radius:999px;background:#f4d38b;color:#2f2418;font-weight:900;padding:12px 24px}
-    .dots{display:flex;gap:7px;max-width:40vw;flex-wrap:wrap;justify-content:center}
-    .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.32)}.dot.active{background:#f4d38b;transform:scale(1.35)}
-    .open-curtain{position:fixed;inset:0;background:radial-gradient(circle at center,#fff3c2,#7ac7f3 46%,#2e79a7);z-index:99;display:none;align-items:center;justify-content:center;overflow:hidden;color:#1c4567;font-weight:900;font-size:clamp(26px,5vw,64px)}
-    .open-curtain.active{display:flex;animation:fadeOut .95s ease .95s forwards}
-    .open-train{position:absolute;bottom:20%;left:-30%;font-size:clamp(64px,11vw,140px);animation:runTrain 1.5s ease-in-out forwards}
-    @keyframes runTrain{0%{transform:translateX(0)}100%{transform:translateX(150vw)}}
-    @keyframes fadeOut{to{opacity:0;visibility:hidden}}
-    @media (max-width:720px){.bookshelf{height:calc(100dvh - 170px);grid-template-columns:1fr;align-items:start;grid-auto-rows:max-content}.reader-top{height:64px}.book-stage{height:calc(100dvh - 134px)}.page-card{width:96vw;height:calc(100dvh - 165px)}.story-text{font-size:clamp(20px,8vw,34px)}.reader-bottom{height:70px;gap:10px}.reader-bottom button{padding:11px 18px}.ghost-btn{padding:9px 12px}}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>우진이 성장 도서관</title>
+<style>
+:root{--bg1:#fff5d7;--bg2:#f4bf74;--ink:#3b2516;--card:#fffaf0;--accent:#f47b42;--green:#2f8f6b;--shadow:0 20px 50px rgba(75,43,12,.22)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;color:var(--ink);background:linear-gradient(160deg,#fff7df,#f7d596 45%,#f3b06a);overflow-x:hidden}button{font-family:inherit} .hidden{display:none!important}
+.bg-clouds:before,.bg-clouds:after{content:"";position:fixed;inset:auto auto 10% -20%;width:65vw;height:20vw;max-height:180px;border-radius:999px;background:rgba(255,255,255,.28);filter:blur(6px);animation:cloud 34s linear infinite;pointer-events:none}.bg-clouds:after{top:7%;bottom:auto;left:45%;width:45vw;animation-duration:42s;opacity:.55}@keyframes cloud{to{transform:translateX(140vw)}}
+.app{position:relative;min-height:100dvh;padding:24px max(16px,env(safe-area-inset-left)) max(24px,env(safe-area-inset-bottom));}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;max-width:1180px;margin:0 auto 18px}.brand h1{margin:0;font-size:clamp(28px,5vw,58px);line-height:1.05;letter-spacing:-.06em}.brand p{margin:8px 0 0;font-size:clamp(14px,2.3vw,18px);opacity:.8}.pill{border:0;border-radius:999px;background:rgba(255,255,255,.7);padding:10px 14px;box-shadow:0 8px 22px rgba(0,0,0,.1);font-weight:800;color:#5a3117}.stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.stat{background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.55);border-radius:18px;padding:10px 14px;box-shadow:0 8px 22px rgba(0,0,0,.08);font-weight:900}.shelf{max-width:1180px;margin:0 auto;background:linear-gradient(#9c5b2d,#7a421e);border-radius:30px;padding:28px;box-shadow:var(--shadow), inset 0 -14px 0 rgba(0,0,0,.16)}.books{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px}.book-card{position:relative;min-height:300px;border:0;background:transparent;perspective:1000px;cursor:pointer;text-align:left}.book-cover{height:100%;min-height:300px;border-radius:18px;background:var(--card);box-shadow:0 18px 30px rgba(0,0,0,.24), inset 12px 0 16px rgba(0,0,0,.12);overflow:hidden;transition:transform .42s cubic-bezier(.2,.9,.2,1),box-shadow .42s;transform-origin:left center}.book-card:hover .book-cover,.book-card.opening .book-cover{transform:translateY(-14px) rotateY(-13deg) rotateZ(-1deg);box-shadow:0 34px 55px rgba(0,0,0,.30)}.book-cover img{width:100%;height:190px;object-fit:cover;display:block}.book-info{padding:16px 16px 18px}.book-info h2{margin:0 0 8px;font-size:25px;letter-spacing:-.05em}.book-info p{margin:0;font-size:14px;line-height:1.45;opacity:.76}.status{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.88);border-radius:999px;padding:7px 10px;font-weight:900;font-size:13px}.stamp{position:absolute;left:12px;top:12px;background:#ffef7c;color:#8a4b00;border:2px solid rgba(151,80,0,.25);border-radius:999px;padding:7px 10px;font-weight:1000;transform:rotate(-8deg);box-shadow:0 5px 12px rgba(0,0,0,.14)}.coming{filter:saturate(.5);opacity:.68}.coming .book-cover{background:#eee}.footer-note{max-width:1180px;margin:18px auto 0;text-align:center;font-weight:800;color:rgba(60,35,15,.75)}
+.reader{position:fixed;inset:0;z-index:10;background:radial-gradient(circle at top,#fffbec,#f2c37c);display:flex;flex-direction:column;padding:calc(12px + env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));overflow:hidden}.reader-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 auto 10px;width:min(1260px,100%);z-index:3}.reader-title{font-weight:1000;font-size:clamp(18px,3vw,28px);letter-spacing:-.04em}.reader-actions{display:flex;gap:8px}.navbtn{border:0;border-radius:999px;padding:11px 15px;background:rgba(255,255,255,.75);font-weight:900;color:#4a2b16;box-shadow:0 8px 20px rgba(0,0,0,.12)}.book-stage{position:relative;flex:1;display:grid;place-items:center;width:min(1260px,100%);margin:0 auto;min-height:0}.page-card{position:relative;width:min(100%,calc((100dvh - 116px) * 1.55));height:min(calc(100dvh - 116px),calc(100vw / 1.55));border-radius:28px;overflow:hidden;background:#fff9e8;box-shadow:0 25px 70px rgba(63,35,12,.34);transform-style:preserve-3d;will-change:transform,opacity}.page-card.flip-next{animation:flipNext .48s ease both}.page-card.flip-prev{animation:flipPrev .48s ease both}@keyframes flipNext{0%{transform:perspective(1200px) rotateY(0);opacity:1}50%{transform:perspective(1200px) rotateY(-10deg) translateX(-18px);opacity:.72}100%{transform:perspective(1200px) rotateY(0);opacity:1}}@keyframes flipPrev{0%{transform:perspective(1200px) rotateY(0);opacity:1}50%{transform:perspective(1200px) rotateY(10deg) translateX(18px);opacity:.72}100%{transform:perspective(1200px) rotateY(0);opacity:1}}.page-card img{width:100%;height:100%;object-fit:contain;background:linear-gradient(135deg,#fff6da,#f6d499);display:block}.story-text{position:absolute;left:6%;bottom:6%;max-width:48%;font-family:"Apple SD Gothic Neo","Noto Serif KR",serif;font-size:clamp(19px,3.2vw,38px);font-weight:900;line-height:1.28;letter-spacing:-.045em;color:#fff;text-shadow:0 3px 8px rgba(0,0,0,.58),0 0 20px rgba(0,0,0,.3);white-space:pre-line}.page-indicator{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px auto 0}.dot{width:9px;height:9px;border-radius:99px;background:rgba(90,51,20,.24)}.dot.active{width:28px;background:var(--accent)}.reader-bottom{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:10px}.bigbtn{border:0;border-radius:18px;padding:13px 24px;background:#3d2b1d;color:#fff;font-weight:1000;box-shadow:0 10px 24px rgba(0,0,0,.2)}.bigbtn.primary{background:linear-gradient(135deg,#ff7d42,#f04462)}.bigbtn:disabled{opacity:.4}.particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}.particle{position:absolute;top:-40px;font-size:24px;animation:fall linear forwards;opacity:.8}@keyframes fall{to{transform:translateY(110dvh) rotate(260deg);opacity:.15}}.train-intro{position:fixed;inset:0;z-index:50;background:linear-gradient(#bfe8ff,#fff6d5);display:grid;place-items:center;overflow:hidden}.train-intro.hidden{display:none!important}.train-box{text-align:center}.train{font-size:88px;animation:trainMove 2.1s ease-in-out forwards}.smoke{font-size:34px;opacity:.75;animation:smoke 1.1s infinite}.train-box h2{font-size:clamp(28px,6vw,60px);margin:0;color:#314d74}@keyframes trainMove{0%{transform:translateX(-80vw)}70%{transform:translateX(0)}100%{transform:translateX(110vw)}}@keyframes smoke{50%{transform:translateY(-12px);opacity:.35}}
+.modal{position:fixed;inset:0;z-index:80;background:rgba(44,25,13,.42);display:grid;place-items:center;padding:24px}.modal-card{background:#fff7dc;border-radius:28px;padding:28px;text-align:center;max-width:420px;box-shadow:var(--shadow)}.modal-card h2{margin:0 0 10px;font-size:34px}.modal-card p{margin:0 0 18px;font-weight:800}.modal-card button{border:0;border-radius:999px;padding:13px 22px;background:#2f8f6b;color:white;font-weight:1000}
+@media(max-width:720px){.topbar{align-items:flex-start;flex-direction:column}.shelf{padding:18px;border-radius:22px}.books{grid-template-columns:1fr 1fr;gap:12px}.book-card{min-height:220px}.book-cover{min-height:220px}.book-cover img{height:125px}.book-info{padding:11px}.book-info h2{font-size:18px}.book-info p{font-size:12px}.reader-top{margin-bottom:6px}.page-card{width:100%;height:calc(100dvh - 150px);border-radius:18px}.story-text{max-width:72%;font-size:clamp(20px,7vw,32px)}.bigbtn{padding:12px 16px}.train{font-size:70px}}
+</style>
 </head>
-<body>
-  <div id="app">
-    <section id="library" class="screen active">
-      <div class="hero">
-        <p class="eyebrow">WOOJIN STORY LIBRARY</p>
-        <h1>우진이 성장 도서관</h1>
-        <p>우진이의 추억을 한 권씩 모아가는 전자 동화책이에요.</p>
-      </div>
-      <div class="bookshelf" id="bookshelf"></div>
-    </section>
-    <section id="reader" class="screen reader-screen" aria-hidden="true">
-      <header class="reader-top">
-        <button id="backToLibrary" class="ghost-btn">← 도서관으로</button>
-        <div><strong id="readerTitle">책 제목</strong><span id="pageCounter">1 / 1</span></div>
-        <div class="top-actions"><button id="soundBtn" class="ghost-btn sound-btn">🔇 소리</button></div>
-      </header>
-      <main class="book-stage">
-        <div class="train-smoke"><span></span><span></span><span></span></div>
-        <button id="prevPage" class="tap-zone left" aria-label="이전 페이지"></button>
-        <article id="pageCard" class="page-card">
-          <img id="pageImage" src="" alt="동화책 페이지" />
-          <div id="storyText" class="story-text"></div>
-        </article>
-        <button id="nextPage" class="tap-zone right" aria-label="다음 페이지"></button>
-      </main>
-      <footer class="reader-bottom"><button id="prevBtn">← 이전</button><div id="dots" class="dots"></div><button id="nextBtn">다음 →</button></footer>
-    </section>
+<body class="bg-clouds">
+<div id="library" class="app">
+  <div class="topbar">
+    <div class="brand"><h1>📚 우진이 성장 도서관</h1><p>아빠와 함께 만든 세상에 하나뿐인 디지털 동화책</p></div>
+    <div class="stats"><div class="stat" id="readStat">읽은 책 0권</div><button class="pill" id="resetBtn">스탬프 초기화</button></div>
   </div>
-  <div id="openCurtain" class="open-curtain"><div class="open-train">🚂</div><div>여행을 시작해요!</div></div>
+  <section class="shelf"><div class="books" id="books"></div></section>
+  <p class="footer-note">책을 누르면 앞으로 슥 나오고, 동화책이 열려요.</p>
+</div>
+<div id="reader" class="reader hidden">
+  <div class="reader-top"><button class="navbtn" id="backBtn">← 도서관으로</button><div class="reader-title" id="readerTitle"></div><div class="reader-actions"><button class="navbtn" id="soundBtn">🔇 소리 OFF</button></div></div>
+  <div class="book-stage"><div class="particles" id="particles"></div><div class="page-card" id="pageCard"><img id="pageImg" alt="동화 페이지"><div id="storyText" class="story-text"></div></div></div>
+  <div class="page-indicator" id="dots"></div>
+  <div class="reader-bottom"><button class="bigbtn" id="prevBtn">← 이전</button><button class="bigbtn primary" id="nextBtn">다음 →</button></div>
+</div>
+<div id="trainIntro" class="train-intro hidden"><div class="train-box"><div class="smoke">☁️ ☁️</div><div class="train">🚂</div><h2>칙칙폭폭, 여행을 시작해요!</h2></div></div>
+<div id="finishModal" class="modal hidden"><div class="modal-card"><h2>🎉 이야기가 끝났어요!</h2><p id="finishText">도서관으로 돌아가요.</p><button id="finishBtn">도서관으로 가기</button></div></div>
 <script>
-const BOOKS=[{id:'train',title:'우진이의 기차 여행',subtitle:'사계절을 지나 바다와 터널을 지나요',badge:'🚂 읽을 수 있어요',cover:'assets/books/train/cover.jpg',pages:[{img:'assets/books/train/pages/01.jpg',text:'우진이의\n기차 여행이\n시작돼요.'},{img:'assets/books/train/pages/02.jpg',text:'봄바람이 살랑살랑.\n기차는 꽃길을 달려요.'},{img:'assets/books/train/pages/03.jpg',text:'파란 바다가 반짝반짝.\n우진이는 활짝 웃었어요.'},{img:'assets/books/train/pages/04.jpg',text:'가을 숲 사이로\n노란 잎이 춤을 춰요.'},{img:'assets/books/train/pages/05.jpg',text:'하얀 눈이 펑펑.\n겨울 마을에 도착했어요.'},{img:'assets/books/train/pages/06.jpg',text:'터널을 지나면\n또 새로운 여행이\n기다리고 있어요.'}]},{id:'jeju-part1',title:'우진이의 제주도 여행',subtitle:'Part 1 · 노란 꽃길과 파란 바다',badge:'🏝 읽을 수 있어요',cover:'assets/books/jeju-part1/cover.jpg',pages:[{img:'assets/books/jeju-part1/pages/01.jpg',text:'우진이의\n제주도 여행\nPart 1'},{img:'assets/books/jeju-part1/pages/02.jpg',text:'우진이네 가족은\n제주도에 도착했어요.'},{img:'assets/books/jeju-part1/pages/03.jpg',text:'노란 유채꽃 길을\n천천히 걸어보았어요.'},{img:'assets/books/jeju-part1/pages/04.jpg',text:'끝없이 펼쳐진 꽃밭에서\n우진이는 활짝 웃었어요.'},{img:'assets/books/jeju-part1/pages/05.jpg',text:'엄마랑 꼭 안고\n예쁜 사진도 찍었어요.'},{img:'assets/books/jeju-part1/pages/06.jpg',text:'아빠, 엄마, 우진이.\n함께라서 더 행복했어요.'},{img:'assets/books/jeju-part1/pages/07.jpg',text:'해녀 할머니를 만나\n신기한 이야기를 들었어요.'},{img:'assets/books/jeju-part1/pages/08.jpg',text:'파란 바다를 보며\n파도 소리를 들었어요.'},{img:'assets/books/jeju-part1/pages/09.jpg',text:'돌담 뒤에서\n까꿍!\n웃음이 터졌어요.'},{img:'assets/books/jeju-part1/pages/10.jpg',text:'스쿠터를 타고\n상상 여행도 떠났어요.'},{img:'assets/books/jeju-part1/pages/11.jpg',text:'하늘도 바다도 우리도\n모두 행복했던\n제주도 여행!'}]}];
-
-const library=document.getElementById('library'),reader=document.getElementById('reader'),bookshelf=document.getElementById('bookshelf'),pageImage=document.getElementById('pageImage'),storyText=document.getElementById('storyText'),pageCard=document.getElementById('pageCard'),readerTitle=document.getElementById('readerTitle'),pageCounter=document.getElementById('pageCounter'),dots=document.getElementById('dots'),openCurtain=document.getElementById('openCurtain'),soundBtn=document.getElementById('soundBtn');let currentBook=null,pageIndex=0;let audioCtx=null,soundOn=false,bgmTimer=null;
-function formatStoryText(t){return String(t||'').replace(/\\n/g, '\n').replace(/\/n/g, '\n');}
-function ensureAudio(){if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();}
-function beep(freq=440,dur=.08,type='sine',gain=.04){if(!soundOn)return;ensureAudio();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.value=gain;o.connect(g);g.connect(audioCtx.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+dur);o.stop(audioCtx.currentTime+dur+.02)}
-function pageSound(){beep(520,.05,'triangle',.035);setTimeout(()=>beep(300,.08,'sine',.025),60)}
-function trainSound(){if(!soundOn)return;[0,160,320,520].forEach((t,i)=>setTimeout(()=>beep(i%2?180:240,.12,'square',.025),t))}
-function startBgm(bookId){stopBgm();if(!soundOn)return;const notes=bookId==='train'?[262,330,392,330]:[392,440,494,440];let i=0;bgmTimer=setInterval(()=>{beep(notes[i++%notes.length],.16,'sine',.014)},900)}
-function stopBgm(){if(bgmTimer)clearInterval(bgmTimer);bgmTimer=null}
-function renderLibrary(){bookshelf.innerHTML=BOOKS.map(b=>`<button class="book" data-book="${b.id}"><img src="${b.cover}" alt="${b.title} 표지"><div class="book-info"><span class="badge">${b.badge}</span><h2>${b.title}</h2><p>${b.subtitle}</p></div></button>`).join('');document.querySelectorAll('.book').forEach(btn=>btn.addEventListener('click',()=>{btn.classList.add('opening');setTimeout(()=>openBook(btn.dataset.book),430)}))}
-function openBook(id){currentBook=BOOKS.find(b=>b.id===id);if(!currentBook)return;pageIndex=0;reader.classList.toggle('train-mode',id==='train');openCurtain.classList.add('active');trainSound();setTimeout(()=>{library.classList.remove('active');reader.classList.add('active');reader.setAttribute('aria-hidden','false');renderPage('next');startBgm(id);setTimeout(()=>openCurtain.classList.remove('active'),900)},820)}
-function renderPage(dir='next'){const p=currentBook.pages[pageIndex];pageSound();pageCard.classList.add(dir==='prev'?'flipping-prev':'flipping-next');setTimeout(()=>{readerTitle.textContent=currentBook.title;pageCounter.textContent=`${pageIndex+1} / ${currentBook.pages.length}`;pageImage.src=p.img;storyText.textContent=formatStoryText(p.text);dots.innerHTML=currentBook.pages.map((_,i)=>`<span class="dot ${i===pageIndex?'active':''}"></span>`).join('');pageCard.classList.remove('flipping-next','flipping-prev')},180)}
-function finishBook(){pageSound();setTimeout(()=>{alert(`「${currentBook.title}」 이야기가 끝났어요!
-도서관으로 돌아갈게요.`);back()},120)}
-function nextPage(){if(!currentBook)return;if(pageIndex<currentBook.pages.length-1){pageIndex++;renderPage('next')}else finishBook()}
-function prevPage(){if(currentBook&&pageIndex>0){pageIndex--;renderPage('prev')}}
-function back(){stopBgm();reader.classList.remove('active','train-mode');reader.setAttribute('aria-hidden','true');library.classList.add('active');currentBook=null;pageIndex=0;pageImage.removeAttribute('src');storyText.textContent=''}
-soundBtn.onclick=()=>{soundOn=!soundOn;if(soundOn){ensureAudio();soundBtn.textContent='🔊 소리';soundBtn.classList.add('on');if(currentBook)startBgm(currentBook.id)}else{soundBtn.textContent='🔇 소리';soundBtn.classList.remove('on');stopBgm()}};
-document.getElementById('nextBtn').onclick=nextPage;document.getElementById('prevBtn').onclick=prevPage;document.getElementById('nextPage').onclick=nextPage;document.getElementById('prevPage').onclick=prevPage;document.getElementById('backToLibrary').onclick=back;window.addEventListener('keydown',e=>{if(reader.classList.contains('active')){if(e.key==='ArrowRight')nextPage();if(e.key==='ArrowLeft')prevPage();if(e.key==='Escape')back()}});let sx=0;window.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});window.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(reader.classList.contains('active')&&Math.abs(dx)>50){dx<0?nextPage():prevPage()}},{passive:true});renderLibrary();
+const BOOKS=[
+ {id:'train',emoji:'🚂',title:'우진이의 기차여행',subtitle:'봄, 여름, 가을, 겨울을 지나가는 첫 번째 여행',cover:'assets/books/train/cover.jpg',theme:'train',pages:[
+  ['assets/books/train/pages/01.jpg','우진이의\n기차여행'],['assets/books/train/pages/02.jpg','봄바람이 살랑살랑\n꽃길을 지나가요.'],['assets/books/train/pages/03.jpg','파란 바다 옆으로\n기차가 달려요.'],['assets/books/train/pages/04.jpg','노란 가을잎이\n창밖에서 춤춰요.'],['assets/books/train/pages/05.jpg','하얀 눈마을에서\n따뜻하게 웃어요.'],['assets/books/train/pages/06.jpg','터널을 지나면\n새로운 여행이 기다려요.']]
+ },
+ {id:'jeju',emoji:'🏝️',title:'우진이의 제주도 여행',subtitle:'PART 1 · 노란 꽃길과 파란 바다',cover:'assets/books/jeju-part1/cover.jpg',theme:'jeju',pages:[
+  ['assets/books/jeju-part1/pages/01.jpg','제주도에\n도착했어요.'],['assets/books/jeju-part1/pages/02.jpg','노란 꽃길을\n천천히 걸어요.'],['assets/books/jeju-part1/pages/03.jpg','꽃향기가\n살랑살랑 다가와요.'],['assets/books/jeju-part1/pages/04.jpg','엄마 품은\n언제나 따뜻해요.'],['assets/books/jeju-part1/pages/05.jpg','우리 가족이 함께라서\n더 행복했어요.'],['assets/books/jeju-part1/pages/06.jpg','우진이는 오늘\n꼬마 해녀가 되었어요.'],['assets/books/jeju-part1/pages/07.jpg','파도가 철썩철썩\n인사를 해요.'],['assets/books/jeju-part1/pages/08.jpg','바위 뒤에서\n까꿍!'],['assets/books/jeju-part1/pages/09.jpg','부릉부릉\n상상 여행을 떠나요.'],['assets/books/jeju-part1/pages/10.jpg','아빠가 번쩍!\n하늘 가까이 올라가요.'],['assets/books/jeju-part1/pages/11.jpg','오늘도\n행복한 하루였습니다.']]
+ },
+ {id:'jeju2',emoji:'🌊',title:'제주도 여행 Part 2',subtitle:'다음 사진으로 곧 이어질 바다 이야기',cover:'assets/books/jeju-part1/cover.jpg',coming:true},
+ {id:'dino',emoji:'🦕',title:'공룡나라 모험',subtitle:'우진이가 공룡 친구를 만나는 이야기',cover:'assets/books/train/cover.jpg',coming:true}
+];
+let current=null,page=0,soundOn=false,audioCtx=null;
+const $=id=>document.getElementById(id);const readKey='woojin.readBooks.v3';
+function getRead(){try{return JSON.parse(localStorage.getItem(readKey)||'{}')}catch(e){return {}}}function setRead(v){localStorage.setItem(readKey,JSON.stringify(v))}
+function renderLibrary(){const read=getRead();$('books').innerHTML=BOOKS.map(b=>`<button class="book-card ${b.coming?'coming':''}" data-id="${b.id}"><div class="book-cover"><img src="${b.cover}" alt="${b.title}"><div class="book-info"><h2>${b.emoji} ${b.title}</h2><p>${b.subtitle}</p></div></div>${read[b.id]?'<div class="stamp">✅ 완독</div>':''}<div class="status">${b.coming?'준비중':(read[b.id]?'다시 읽기':'읽기')}</div></button>`).join('');$('readStat').textContent=`읽은 책 ${Object.keys(read).length}권`;document.querySelectorAll('.book-card').forEach(btn=>btn.onclick=()=>openBook(btn.dataset.id,btn));}
+function openBook(id,btn){const book=BOOKS.find(b=>b.id===id);if(!book||book.coming){alert('아직 준비중인 이야기예요.');return;}btn.classList.add('opening');setTimeout(()=>{current=book;page=0;$('readerTitle').textContent=`${book.emoji} ${book.title}`;$('library').classList.add('hidden');$('reader').classList.remove('hidden');if(book.theme==='train')showTrainIntro();showPage('next');startParticles(book.theme);},360)}
+function showTrainIntro(){const el=$('trainIntro');el.classList.remove('hidden');beep('train');setTimeout(()=>el.classList.add('hidden'),2200)}
+function showPage(dir){if(!current)return;const p=current.pages[page];const card=$('pageCard');card.classList.remove('flip-next','flip-prev');void card.offsetWidth;card.classList.add(dir==='prev'?'flip-prev':'flip-next');$('pageImg').src=p[0];$('storyText').textContent=p[1].replace(/\\n/g,'\n');$('prevBtn').disabled=page===0;$('nextBtn').textContent=page===current.pages.length-1?'끝내기 →':'다음 →';$('dots').innerHTML=current.pages.map((_,i)=>`<span class="dot ${i===page?'active':''}"></span>`).join('');beep('page')}
+function next(){if(!current)return;if(page>=current.pages.length-1){finishBook();return;}page++;showPage('next')}function prev(){if(!current||page===0)return;page--;showPage('prev')}
+function finishBook(){const read=getRead();read[current.id]={done:true,date:new Date().toISOString(),count:(read[current.id]?.count||0)+1};setRead(read);$('finishText').textContent=`${current.title} 완독 스탬프를 찍었어요.`;$('finishModal').classList.remove('hidden');beep('done')}
+function closeReader(){current=null;$('reader').classList.add('hidden');$('library').classList.remove('hidden');$('finishModal').classList.add('hidden');renderLibrary()}
+function startParticles(theme){const box=$('particles');box.innerHTML='';const icons=theme==='jeju'?['🌼','🦋','🌊','☁️']:['🌸','🍂','❄️','☁️'];let n=0;clearInterval(window.particleTimer);window.particleTimer=setInterval(()=>{if($('reader').classList.contains('hidden'))return;const s=document.createElement('span');s.className='particle';s.textContent=icons[Math.floor(Math.random()*icons.length)];s.style.left=Math.random()*100+'%';s.style.animationDuration=(5+Math.random()*6)+'s';s.style.fontSize=(18+Math.random()*18)+'px';box.appendChild(s);setTimeout(()=>s.remove(),11000);if(++n>120)box.firstChild?.remove();},520)}
+function initAudio(){if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume()}function beep(type){if(!soundOn)return;initAudio();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);const now=audioCtx.currentTime;if(type==='train'){o.frequency.setValueAtTime(190,now);o.frequency.linearRampToValueAtTime(120,now+.22);g.gain.setValueAtTime(.08,now);g.gain.exponentialRampToValueAtTime(.001,now+.35);o.start(now);o.stop(now+.36);setTimeout(()=>beep('page'),180);return}if(type==='done'){o.frequency.value=660;g.gain.setValueAtTime(.08,now);g.gain.exponentialRampToValueAtTime(.001,now+.5);o.start(now);o.stop(now+.5);return}o.frequency.value=360;g.gain.setValueAtTime(.045,now);g.gain.exponentialRampToValueAtTime(.001,now+.12);o.start(now);o.stop(now+.13)}
+$('nextBtn').onclick=next;$('prevBtn').onclick=prev;$('backBtn').onclick=closeReader;$('finishBtn').onclick=closeReader;$('soundBtn').onclick=()=>{soundOn=!soundOn;if(soundOn)initAudio();$('soundBtn').textContent=soundOn?'🔊 소리 ON':'🔇 소리 OFF';beep('done')};$('resetBtn').onclick=()=>{if(confirm('완독 스탬프를 초기화할까요?')){localStorage.removeItem(readKey);renderLibrary()}};
+let sx=0;$('reader').addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});$('reader').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>55){dx<0?next():prev()}},{passive:true});document.addEventListener('keydown',e=>{if(!$('reader').classList.contains('hidden')){if(e.key==='ArrowRight')next();if(e.key==='ArrowLeft')prev();if(e.key==='Escape')closeReader()}});
+renderLibrary();
 </script>
 </body>
 </html>
