@@ -55,7 +55,28 @@ const BOOKS=[
   {img:'assets/books/jeju-part1/pages/10.jpg',text:'아빠가 번쩍!\n하늘 가까이 올라가요.'},
   {img:'assets/books/jeju-part1/pages/11.jpg',text:'오늘도\n행복한 하루였습니다.'}
  ]},
- {id:'jeju2',emoji:'🌊',title:'제주도 여행 Part 2',subtitle:'다음 사진으로 곧 이어질 바다 이야기',cover:'assets/books/jeju-part1/cover.jpg',coming:true},
+ {id:'jeju2',emoji:'🌊',title:'제주도 여행 Part 2',subtitle:'바람이 속삭이는 아름다운 하루',cover:'assets/books/jeju-part2/cover.jpg',theme:'jeju',memories:[],pages:[
+  {img:'assets/books/jeju-part2/pages/01.jpg',text:'우진이의
+제주도 여행 2'},
+  {img:'assets/books/jeju-part2/pages/02.jpg',text:'제주도의 아침은
+상쾌하게 시작됐어요.',hidden:'☀️'},
+  {img:'assets/books/jeju-part2/pages/03.jpg',text:'노란 꽃밭에서
+파란 바람개비를 만났어요.',hidden:'💙'},
+  {img:'assets/books/jeju-part2/pages/04.jpg',text:'바다는 절벽 아래에서
+반짝반짝 빛났어요.',hidden:'🌊'},
+  {img:'assets/books/jeju-part2/pages/05.jpg',text:'우진이는 바닷바람을 맞으며
+활짝 웃었답니다.',hidden:'✨'},
+  {img:'assets/books/jeju-part2/pages/06.jpg',text:'숲 속 카페에서
+달콤한 간식도 먹었어요.'},
+  {img:'assets/books/jeju-part2/pages/07.jpg',text:'초록 오름을 향해
+엄마 아빠 손을 잡고 걸었어요.',hidden:'🌿'},
+  {img:'assets/books/jeju-part2/pages/08.jpg',text:'그리고 드디어
+엄마 아빠의 웨딩사진 장소에 왔어요.',hidden:'💍'},
+  {img:'assets/books/jeju-part2/pages/09.jpg',text:'그때처럼 따뜻한 햇살 속에서
+우리 가족은 새 추억을 만들었어요.',hidden:'❤️'},
+  {img:'assets/books/jeju-part2/pages/10.jpg',text:'우진아,
+우리의 제주 이야기는 계속될 거야.'}
+]},
  {id:'dino',emoji:'🦕',title:'공룡나라 모험',subtitle:'우진이가 공룡 친구를 만나는 이야기',cover:'assets/books/train/cover.jpg',coming:true}
 ];
 let current=null,page=0,soundOn=false,audioCtx=null,choice=null,found={},visiblePages=[];const $=id=>document.getElementById(id);const readKey='woojin.readBooks.interactive.v1';const foundKey='woojin.foundObjects.v1';
