@@ -1,4 +1,15 @@
 const books={
+  'train':{
+    title:'우진이의 기차 여행',
+    pages:[
+      'assets/books/train/pages/00_cover.jpg',
+      'assets/books/train/pages/01_spring.jpg',
+      'assets/books/train/pages/02_summer_sea.jpg',
+      'assets/books/train/pages/03_autumn.jpg',
+      'assets/books/train/pages/04_winter.jpg',
+      'assets/books/train/pages/05_happy_station.jpg'
+    ]
+  },
   'jeju-part1':{
     title:'우진이의 제주도 여행',
     pages:[
