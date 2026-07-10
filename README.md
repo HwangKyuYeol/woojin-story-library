@@ -15,3 +15,8 @@
 
 확인 주소 예시:
 `https://hwangkyuyeol.github.io/woojin-story-library/index.html?v=familyprologue1`
+
+
+## 이번 수정
+- 엄마 아빠 이야기 본문 11장을 실사가 아닌 동화 일러스트로 교체했습니다.
+- 실제 웨딩 사진은 완독 후 추억 모드에서만 랜덤 4장 노출됩니다.
