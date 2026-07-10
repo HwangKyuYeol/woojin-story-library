@@ -1,22 +1,21 @@
-# 우진이 성장 도서관 - 가족 프롤로그 버전
+# WooJin Story Library
 
-## 이번 버전
-- 첫 화면 영화형 오프닝 추가
-- 첫 번째 책: `엄마 아빠의 이야기`
-- 2010-07-25 연애 시작
-- 2020 동거 시작
-- 2022-07-09 롯데타워가 보이는 요트 위 프로포즈
-- 2023 결혼
-- 다음 책 `우진이가 태어난 날`로 자연스럽게 이어지는 구성
-- 웨딩 추억모드 실제 사진 10장 중 랜덤 4장 표시
+GitHub Pages 업로드용 완성본입니다.
 
-## GitHub 업로드
-압축을 풀고 안쪽의 `index.html`, `assets/`, `README.md`를 저장소 루트에 그대로 덮어쓰세요.
+## 책 순서
+1. 엄마 아빠의 이야기
+2. 우진이가 우리에게 찾아왔어요
+3. 우진이가 태어난 날
+4. 우진이의 기차 여행
+5. 제주도 여행 Part 1
+6. 제주도 여행 Part 2
 
-확인 주소 예시:
-`https://hwangkyuyeol.github.io/woojin-story-library/index.html?v=familyprologue1`
+## 업로드
+압축을 풀고 내부의 `index.html`, `assets/`, `README.md`를 저장소 루트에 덮어쓰세요.
 
+GitHub Pages 설정:
+- Branch: `main`
+- Folder: `/ (root)`
 
-## 이번 수정
-- 엄마 아빠 이야기 본문 11장을 실사가 아닌 동화 일러스트로 교체했습니다.
-- 실제 웨딩 사진은 완독 후 추억 모드에서만 랜덤 4장 노출됩니다.
+확인 주소:
+`https://hwangkyuyeol.github.io/woojin-story-library/index.html?v=pregnancy2`
