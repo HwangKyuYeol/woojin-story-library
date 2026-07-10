@@ -1,17 +1,18 @@
-# WooJin Story Library - Pregnancy Single Page Fix
+# WooJin Story Library - Pregnancy True Single Scene
 
-두 번째 이야기 《우진이가 우리에게 찾아왔어요》를
-엄마 아빠 이야기처럼 한 페이지에 한 장면만 보이도록 수정한 버전입니다.
+《우진이가 우리에게 찾아왔어요》의 모든 장면을
+한 페이지에 정확히 한 장면씩 보이도록 다시 분리한 버전입니다.
 
-## 반영 내용
-- 임신 이야기의 콜라주 이미지를 장면별로 분리
-- 한 페이지에 한 장면만 표시
-- 총 8페이지
-- 기존 추억모드, 숨은그림, 도서관 기능 유지
-
-## 업로드
-압축을 풀고 내부 파일 전체를 GitHub 저장소 루트에 덮어쓴 뒤
-GitHub Desktop에서 Commit → Push origin 하세요.
+- 표지 1장
+- 임신 테스트기 1장
+- 병원 1장
+- 태명 용왕 1장
+- 초음파 1장
+- 태교여행 소개 1장
+- 제주도 1장
+- 다낭 1장
+- 기다림 1장
+- 다음 이야기 1장
 
 확인 주소:
-https://hwangkyuyeol.github.io/woojin-story-library/index.html?v=pregnancy-single1
+https://hwangkyuyeol.github.io/woojin-story-library/index.html?v=pregnancy-true-single
